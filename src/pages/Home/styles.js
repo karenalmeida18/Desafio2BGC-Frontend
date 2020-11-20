@@ -61,13 +61,26 @@ export const CardMinion = styled.div`
      margin: 5px 0;
    }
    button {
-     width: 95%;
+     width: 80%;
+     height: 100%;
      font-weight: bold;
      border: none;
-     background: #012e41;
      color: #fff;
-     padding: 10px;
-     margin: auto;
+     padding: 8px;
+     background: #012e41;
+   }
+   .btn-shop{
+     width: 100%;
+     display: flex;
+     align-items: center;
+     background: #012e41;
+     svg { 
+       padding: 4px;
+       width: 20%;
+       background: #fff;
+       height: 100%;
+       border: 1px solid #012e41;
+     }
    }
 
 `
