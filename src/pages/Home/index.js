@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { API } from "aws-amplify";
 
 import { Container, CardsList, CardMinion } from './styles';
 
@@ -7,55 +9,45 @@ import Form from '../../components/Form';
 
 import { CgShoppingCart } from "react-icons/cg";
 
-export default function Home(){
+export default function Home() {
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState('');
+  const [productsData, setProductsData] = useState([]);
 
-  function handleOpen(text){
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const response = await API.get('products', '/products');
+        setProductsData(response);
+      } catch (error) {
+        console.log(error.response);
+      }
+    }
+    loadProducts();
+  }, []);
+
+  function handleOpen(text) {
     setVisible(true);
     setTitle(text);
   }
 
-  return(
+  return (
     <Container>
 
-      <Header/>
-        { visible && <Form title={title} onClose={() => setVisible(false)}/> }
+      <Header />
+      {visible && <Form title={title} onClose={() => setVisible(false)} />}
 
       <CardsList>
 
-        <CardMinion>
-          <p>MINION STUART </p>
-          <img src="https://images-na.ssl-images-amazon.com/images/I/71MN--u2SEL._AC_SL1500_.jpg" alt="product"/>
-          <span> R$ 2,99</span>
-          <p className="btn-shop"> <CgShoppingCart/> <button onClick={() => handleOpen('MINION STUART')}>RESERVAR</button></p>
-        </CardMinion>
-        <CardMinion>
-          <p>MINION STUART </p>
-          <img src="https://images-na.ssl-images-amazon.com/images/I/71MN--u2SEL._AC_SL1500_.jpg" alt="product"/>
-          <span> R$ 2,99</span>
-          <p className="btn-shop"> <CgShoppingCart/> <button onClick={() => handleOpen('MINION STUART')}>RESERVAR</button></p>
-        </CardMinion>
-        <CardMinion>
-          <p>MINION STUART </p>
-          <img src="https://images-na.ssl-images-amazon.com/images/I/71MN--u2SEL._AC_SL1500_.jpg" alt="product"/>
-          <span> R$ 2,99</span>
-          <p className="btn-shop"> <CgShoppingCart/> <button onClick={() => handleOpen('MINION STUART')}>RESERVAR</button></p>
-        </CardMinion>
-        <CardMinion>
-          <p>MINION STUART </p>
-          <img src="https://images-na.ssl-images-amazon.com/images/I/71MN--u2SEL._AC_SL1500_.jpg" alt="product"/>
-          <span> R$ 2,99</span>
-          <p className="btn-shop"> <CgShoppingCart/> <button onClick={() => handleOpen('MINION STUART')}>RESERVAR</button></p>
-        </CardMinion>
-        <CardMinion>
-          <p>MINION STUART </p>
-          <img src="https://images-na.ssl-images-amazon.com/images/I/71MN--u2SEL._AC_SL1500_.jpg" alt="product"/>
-          <span> R$ 2,99</span>
-          <p className="btn-shop"> <CgShoppingCart/> <button onClick={() => handleOpen('MINION STUART')}>RESERVAR</button></p>
-        </CardMinion>
-        
-        
+        {productsData.map(product => (
+          <CardMinion key={product.productId}>
+            <p> {product.title} </p>
+            <img src="https://images-na.ssl-images-amazon.com/images/I/71MN--u2SEL._AC_SL1500_.jpg" alt="product" />
+            <span> R${product.price} </span>
+            <p className="btn-shop"> <CgShoppingCart /> <button onClick={() => handleOpen(`${product.title}`)}>RESERVAR</button></p>
+          </CardMinion>
+        ))}
+
       </CardsList>
 
     </Container>
