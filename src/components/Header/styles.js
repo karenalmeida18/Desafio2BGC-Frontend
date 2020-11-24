@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
    width: 100%;
-   padding: 10px 40px;
+   background: #024a58; 
+   padding: 15px 40px;
    font-size: clamp(1rem, 4.5vh, 4rem);
    color:  #f0f0f0;
    font-style: italic;

@@ -12,6 +12,8 @@ import { CgShoppingCart } from "react-icons/cg";
 export default function Home() {
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [id, setId] = useState('');
   const [productsData, setProductsData] = useState([]);
 
   useEffect(() => {
@@ -26,16 +28,22 @@ export default function Home() {
     loadProducts();
   }, []);
 
-  function handleOpen(text) {
+  function handleOpen(product) {
     setVisible(true);
-    setTitle(text);
+    setTitle(product.title);
+    setPrice(product.price);
+    setId(product.productId)
   }
 
   return (
     <Container>
 
       <Header />
-      {visible && <Form title={title} onClose={() => setVisible(false)} />}
+      {visible && <Form
+        title={title}
+        price={price}
+        id={id}
+        onClose={() => setVisible(false)} />}
 
       <CardsList>
 
@@ -44,7 +52,7 @@ export default function Home() {
             <p> {product.title} </p>
             <img src="https://images-na.ssl-images-amazon.com/images/I/71MN--u2SEL._AC_SL1500_.jpg" alt="product" />
             <span> R${product.price} </span>
-            <p className="btn-shop"> <CgShoppingCart /> <button onClick={() => handleOpen(`${product.title}`)}>RESERVAR</button></p>
+            <p className="btn-shop"> <CgShoppingCart /> <button onClick={() => handleOpen(product)}>RESERVAR</button></p>
           </CardMinion>
         ))}
 
