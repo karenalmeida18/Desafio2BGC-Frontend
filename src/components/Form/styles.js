@@ -12,6 +12,10 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  .title-reserved {
+    color: gray;
+    padding: 10px;
+  }
 
 `;
 export const Modal = styled.div`
@@ -46,6 +50,10 @@ export const Modal = styled.div`
     font-size: 10pt;
     color: gray;
     border-bottom: 1px solid #d3d4d5;
+    cursor: pointer;
+    :hover {
+      color: #024a58;
+    }
   }
   > div {
     margin-top: 10px;
