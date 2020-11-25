@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
@@ -18,6 +18,16 @@ export const Container = styled.div`
   }
 
 `;
+
+const rotate = keyframes`
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+`;
+
 export const Modal = styled.div`
   padding: 20px 10px;
   width: 40%;
@@ -80,10 +90,16 @@ export const Modal = styled.div`
     padding: 10px;
     border-radius: 2px;
     border-radius: 20px;
+    ${props => props.loading && css`
+        svg {
+            animation: ${rotate} 2s linear infinite;
+        }
+    `}
   }
   .send {
     background: #024a58; 
     color: #fff;
+    
   }
   .cancel {
     background: #fff;

@@ -12,12 +12,15 @@ import * as UserActions from '../../store/actions/user'
 import { Container, Modal, Description } from './styles';
 import { toast } from 'react-toastify';
 
+import { CgSpinner } from "react-icons/cg";
+
 function Form(props) {
   const history = useHistory();
   const [values, setValues] = useState({
     email: '',
     password: '',
   })
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -25,6 +28,7 @@ function Form(props) {
 
   //se o usuario já estiver logado 
   async function handleReserved() {
+    setLoading(true);
     try {
       const response = await API.put('products', `/reserved/${props.id}`);
 
@@ -32,33 +36,41 @@ function Form(props) {
         console.log(props.user.email);
         toast.success('Produto reservado com sucesso!');
         sendEmail(props.user.email, props.title);
+        setLoading(false);
+        props.onClose();
       }
     }
     catch (e) {
       console.log(e);
+      setLoading(false);
     }
   }
-  
+
   //se o suário não estiver logado
   async function handleReservedSignIn() {
+    setLoading(true);
     const res = await signIn(email, password);
-    if(res) {
-    props.setLogin(res.attributes);
+    if (res) {
+      props.setLogin(res.attributes);
 
-    try {
-      const response = await API.put('products', `/reserved/${props.id}`);
+      try {
+        const response = await API.put('products', `/reserved/${props.id}`);
 
-      if (response.success) {
-        toast.success('Produto reservado com sucesso!');
-        console.log(email);
-        sendEmail(email, props.title);
+        if (response.success) {
+          toast.success('Produto reservado com sucesso!');
+          console.log(email);
+          sendEmail(email, props.title);
+          setLoading(false);
+          props.onClose();
+        }
+      }
+      catch (e) {
+        console.log(e);
+        setLoading(false);
       }
     }
-    catch (e) {
-      console.log(e);
-    }
+    setLoading(false);
   }
-}
 
   async function handleLogout() {
     const response = await Auth.signOut();
@@ -70,7 +82,7 @@ function Form(props) {
   const { email, password } = values;
   return (
     <Container >
-      <Modal>
+      <Modal loading={loading}>
         <h4> RESERVAR PRODUTO </h4>
         <Description>
           <h5 className="title-description"> DESCRIÇÃO DA RESERVA </h5>
@@ -93,7 +105,9 @@ function Form(props) {
         }
         <div >
           <button onClick={() => props.onClose()} className="cancel">CANCELAR</button>
-          <button onClick={() => props.user.email ? handleReserved() : handleReservedSignIn()} className="send">CONFIRMAR</button>
+          <button onClick={() => props.user.email ? handleReserved() : handleReservedSignIn()} className="send">
+            {loading ? <CgSpinner /> : <p> CONFIRMAR </p>}
+          </button>
         </div>
       </Modal>
     </Container>
