@@ -53,6 +53,7 @@ export const CardsList = styled.div`
 export const CardMinion = styled.div`
    background: #fff;
    width: 200px;
+   height: 280px;
    padding: 16px;
    border-radius: 2px;
    color: #012e41;
@@ -77,6 +78,7 @@ export const CardMinion = styled.div`
 
    img {
      width: 80%;
+     height: 45%;
      margin: 5px 0;
      object-fit: cover;
    }
@@ -87,6 +89,7 @@ export const CardMinion = styled.div`
    p{
      font-weight: bold;
      margin: 5px 0;
+     text-align: center;
    }
    button {
      width: 80%;
