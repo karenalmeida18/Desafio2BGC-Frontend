@@ -6,8 +6,8 @@ import { sendEmail } from "../../libs/sendEmail";
 import { signIn } from "../../libs/signIn";
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
-import * as UserActions from '../../store/actions/user'
+import * as UserActions from '../../store/actions/user';
+import * as CartActions from '../../store/actions/cart';
 
 import { Container, Modal, Description } from './styles';
 import { toast } from 'react-toastify';
@@ -22,25 +22,29 @@ function Form(props) {
   })
   const [loading, setLoading] = useState(false);
 
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
   //se o usuario já estiver logado 
   async function handleReserved() {
+    console.log(props.id)
     setLoading(true);
     try {
-      const response = await API.put('products', `/reserved/${props.id}`);
-
+      const response = await API.put('products', `/reserved`, {
+        body: { productId: props.id }
+      });
       if (response.success) {
         toast.success('Produto reservado com sucesso!');
-        sendEmail(props.user.email, props.title);
+        sendEmail(props.user.email, props.products.map(item => item.title));
         setLoading(false);
         props.onClose();
+        props.clear();
+        window.location.reload();
       }
     }
     catch (e) {
-      console.log(e);
       toast.error(e);
       setLoading(false);
     }
@@ -54,13 +58,17 @@ function Form(props) {
       props.setLogin(res.attributes);
 
       try {
-        const response = await API.put('products', `/reserved/${props.id}`);
+        const response = await API.put('products', `/reserved`, {
+          body: { productId: props.id }
+        });
 
         if (response.success) {
           toast.success('Produto reservado com sucesso!');
-          sendEmail(email, props.title);
+          sendEmail(email, props.products.map(item => item.title));
           setLoading(false);
           props.onClose();
+          props.clear();
+          window.location.reload();
         }
       }
       catch (e) {
@@ -85,8 +93,13 @@ function Form(props) {
         <h4> RESERVAR PRODUTO </h4>
         <Description>
           <h5 className="title-description"> DESCRIÇÃO DA RESERVA </h5>
-          <p> <strong> NOME DO PRODUTO </strong> : {props.title} </p>
-          <p> <strong> PREÇO DO PRODUTO </strong> : {props.price} </p>
+          {props.products.map(item => (
+            <div key={item.productId}>
+              <p> <strong> NOME DO PRODUTO </strong> : {item.title} </p>
+              <p> <strong> PREÇO DO PRODUTO </strong> : {item.price} </p>
+            </div>
+          ))}
+
         </Description>
         {
           props.user.email ?
@@ -119,7 +132,10 @@ const MapStateToProps = (state) => ({
   user: state.user,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(UserActions, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  setLogin: (data) => dispatch(UserActions.setLogin(data)),
+  logout: () => dispatch(UserActions.logout()),
+  clear: () => dispatch(CartActions.clear())
+});
 
 export default connect(MapStateToProps, mapDispatchToProps)(Form);

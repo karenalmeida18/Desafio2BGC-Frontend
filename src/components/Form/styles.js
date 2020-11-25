@@ -133,10 +133,11 @@ export const Description = styled.div`
     font-size:  9.5pt;
   }
 
-  p {
-    padding: 10px 0;
-    margin: 0 auto;
+  div {
+    padding: 10px;
+    width: 100%;
     display: flex;
+    justify-content: space-around;
     align-items: center;
     align-self: flex-start;
   }

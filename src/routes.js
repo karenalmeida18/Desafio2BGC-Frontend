@@ -6,6 +6,7 @@ import Adm from './pages/Adm';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import History from './pages/History';
+import Cart from './pages/Cart';
 
 import { isAuthenticated } from './services/auth';
 
@@ -30,6 +31,7 @@ export default function Routes() {
                 <Route path="/login" component={Login}/>
                 <Route path="/register" component={Register}/>
                 <UserRoute path="/history" component={History}/>
+                <Route path="/cart" component={Cart}/>
                 <Route path="/adm" component={Adm}/>
             </Switch>
         </BrowserRouter>
