@@ -4,7 +4,6 @@ const INITIAL_STATE = {
 }
 
 export default function user(state = INITIAL_STATE, action) {
-  console.log(state);
   switch (action.type) {
     case 'SET_LOGIN':
       return action.data;

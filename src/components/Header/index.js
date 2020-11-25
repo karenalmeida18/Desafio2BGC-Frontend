@@ -1,17 +1,16 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { Container, Cart } from './styles';
 
 import { CgProfile, CgShoppingCart } from "react-icons/cg";
 
-
-export default function Header() {
+function Header({ user }) {
   const history = useHistory();
-
   return (
     <Container>
-      <p> SHOPMINIONS </p>
+      <p onClick={() => history.push('/')}> SHOPMINIONS </p>
 
       <Cart>
         <CgProfile onClick={() => history.push('/login')} />
@@ -21,3 +20,9 @@ export default function Header() {
     </Container>
   )
 }
+
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(Header);

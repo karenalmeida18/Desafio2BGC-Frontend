@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import * as UserActions from '../../store/actions/user'
+
 import { toast } from 'react-toastify';
 
 import { Auth } from 'aws-amplify';
@@ -8,7 +13,9 @@ import { Container, Content } from './styles';
 
 import Header from '../../components/Header';
 
-export default function Login() {
+import { isAuthenticated } from '../../services/auth';
+
+function Login({ setLogin }) {
   const history = useHistory();
   const [values, setValues] = useState({
     email: '',
@@ -24,7 +31,10 @@ export default function Login() {
     if (!email || !password) toast.error('Por favor, preencha todos os campos!');
     else {
       try {
-        await Auth.signIn(email, password);
+        const response = await Auth.signIn(email, password);
+        setLogin(response.attributes);
+        toast.success("Login feito com sucesso");
+        history.push('/history');
       }
       catch (e) {
         console.log(e);
@@ -36,6 +46,8 @@ export default function Login() {
   const { email, password } = values;
 
   return (
+    <>
+    {isAuthenticated() ? <Redirect to="/history" /> : null}
     <Container>
       <Header />
       <Content onSubmit={handleSubmit}>
@@ -50,5 +62,11 @@ export default function Login() {
       </Content>
 
     </Container>
+    </>
   )
 }
+
+const mapDispatchToProps = (dispatch) => 
+  bindActionCreators(UserActions, dispatch)
+  
+export default connect(null, mapDispatchToProps)(Login);

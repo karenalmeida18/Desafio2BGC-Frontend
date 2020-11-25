@@ -41,6 +41,12 @@ export const CardMinion = styled.div`
      box-shadow: 0 0 20px;
      transform: scale(1.04);
    }
+   .reserved-span {
+     font-style: italic;
+     color: gray;
+     font-weight: lighter;
+     letter-spacing: 2px;
+   }
 
    display: flex;
    flex-direction: column;
@@ -54,7 +60,7 @@ export const CardMinion = styled.div`
    }
    span {
       margin: 5px 0;
-      font-size: 10pt;
+      font-size: 12pt;
    }
    p{
      font-weight: bold;

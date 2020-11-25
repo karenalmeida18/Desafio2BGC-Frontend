@@ -79,6 +79,7 @@ export const Modal = styled.div`
     border: none;
     padding: 10px;
     border-radius: 2px;
+    border-radius: 20px;
   }
   .send {
     background: #024a58; 

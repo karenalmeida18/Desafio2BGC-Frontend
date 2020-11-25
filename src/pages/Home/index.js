@@ -21,6 +21,7 @@ export default function Home() {
       try {
         const response = await API.get('products', '/products');
         setProductsData(response);
+        console.log(response);
       } catch (error) {
         console.log(error.response);
       }
@@ -50,9 +51,11 @@ export default function Home() {
         {productsData.map(product => (
           <CardMinion key={product.productId}>
             <p> {product.title} </p>
-            <img src="https://images-na.ssl-images-amazon.com/images/I/71MN--u2SEL._AC_SL1500_.jpg" alt="product" />
-            <span> R${product.price} </span>
-            <p className="btn-shop"> <CgShoppingCart /> <button onClick={() => handleOpen(product)}>RESERVAR</button></p>
+            <img src={`https://shopminions-upload.s3-sa-east-1.amazonaws.com/${product.image}`} alt="product" />
+            <span> R$ {product.price} </span>
+            {product.reservedBy ? <p className="reserved-span"> reservado </p> :
+              <p className="btn-shop"> <CgShoppingCart /> <button onClick={() => handleOpen(product)}>RESERVAR</button></p>
+            }
           </CardMinion>
         ))}
 

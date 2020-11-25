@@ -23,30 +23,35 @@ function Form(props) {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  //se o usuario já estiver logado 
   async function handleReserved() {
     try {
       const response = await API.put('products', `/reserved/${props.id}`);
 
       if (response.success) {
+        console.log(props.user.email);
         toast.success('Produto reservado com sucesso!');
-        sendEmail(props.user.email);
+        sendEmail(props.user.email, props.title);
       }
     }
     catch (e) {
       console.log(e);
     }
   }
-
+  
+  //se o suário não estiver logado
   async function handleReservedSignIn() {
     const res = await signIn(email, password);
     if(res) {
     props.setLogin(res.attributes);
+
     try {
       const response = await API.put('products', `/reserved/${props.id}`);
 
       if (response.success) {
         toast.success('Produto reservado com sucesso!');
-        sendEmail(res.attributes.email);
+        console.log(email);
+        sendEmail(email, props.title);
       }
     }
     catch (e) {

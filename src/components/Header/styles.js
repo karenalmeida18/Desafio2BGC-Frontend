@@ -15,6 +15,10 @@ export const Container = styled.div`
    @media(max-width: 600px){
      padding: 10px 0;
    }
+
+   p{
+     cursor: pointer;
+   }
 `
 
 export const Cart = styled.div`
