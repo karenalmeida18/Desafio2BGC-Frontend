@@ -37,12 +37,12 @@ function History({ user, logout }) {
   return (
     <Container>
       <Header />
-      <p className="title-history"> <BsArrowLeft onClick={() => history.push('/') }/> Histórico de produtos reservado por {user.email} </p>
+      <p className="title-history"> <BsArrowLeft onClick={() => history.push('/')} /> Histórico de produtos reservado por {user.email} </p>
       {products.length > 0 ?
         <>
           {products.map(product => (
             <ReservetionCard key={product.productId}>
-            <img src={`https://shopminions-upload.s3-sa-east-1.amazonaws.com/${product.image}`} alt="product" />
+              <img src={`https://shopminions-upload.s3-sa-east-1.amazonaws.com/${product.image}`} alt="product" />
               <div>
                 <h4> Produto : </h4>
                 <p>{product.title} </p>
@@ -53,13 +53,13 @@ function History({ user, logout }) {
               </div>
             </ReservetionCard>
           ))}
-          <button onClick={() => handleLogout()}> SAIR DESSA CONTA </button>
         </>
         :
         <ReservetionCard>
-        <h4> nenhum produto reservado nesta conta. </h4>
+          <h4> nenhum produto reservado nesta conta. </h4>
         </ReservetionCard>
       }
+      <button onClick={() => handleLogout()}> SAIR DESSA CONTA </button>
 
     </Container>
   )
