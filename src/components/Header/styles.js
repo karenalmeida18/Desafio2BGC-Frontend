@@ -4,7 +4,7 @@ export const Container = styled.div`
    width: 100%;
    background: #024a58; 
    padding: 15px 40px;
-   font-size: clamp(1rem, 4.5vh, 4rem);
+   font-size: clamp(1rem, 5vh, 4rem);
    color:  #f0f0f0;
    font-style: italic;
    border-bottom: 1px solid gray;
@@ -13,10 +13,10 @@ export const Container = styled.div`
    justify-content: space-between;
 
    @media(max-width: 600px){
-     padding: 10px 0;
+     padding: 10px;
+     font-size: 16pt;
    }
-
-   p{
+   p {
      cursor: pointer;
    }
 `

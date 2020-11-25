@@ -7,7 +7,7 @@ import { Container, CardsList, CardMinion } from './styles';
 import Header from '../../components/Header';
 import Form from '../../components/Form';
 
-import { CgShoppingCart } from "react-icons/cg";
+import { CgShoppingCart, CgSpinner } from "react-icons/cg";
 
 export default function Home() {
   const [visible, setVisible] = useState(false);
@@ -15,15 +15,18 @@ export default function Home() {
   const [price, setPrice] = useState('');
   const [id, setId] = useState('');
   const [productsData, setProductsData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     async function loadProducts() {
       try {
         const response = await API.get('products', '/products');
         setProductsData(response);
-        console.log(response);
+        setLoading(false);
       } catch (error) {
         console.log(error.response);
+        setLoading(false);
       }
     }
     loadProducts();
@@ -37,7 +40,7 @@ export default function Home() {
   }
 
   return (
-    <Container>
+    <Container load={loading}>
 
       <Header />
       {visible && <Form
@@ -46,20 +49,23 @@ export default function Home() {
         id={id}
         onClose={() => setVisible(false)} />}
 
-      <CardsList>
+      {loading ? <CgSpinner className="load" /> :
 
-        {productsData.map(product => (
-          <CardMinion key={product.productId}>
-            <p> {product.title} </p>
-            <img src={`https://shopminions-upload.s3-sa-east-1.amazonaws.com/${product.image}`} alt="product" />
-            <span> R$ {product.price} </span>
-            {product.reservedBy ? <p className="reserved-span"> reservado </p> :
-              <p className="btn-shop"> <CgShoppingCart /> <button onClick={() => handleOpen(product)}>RESERVAR</button></p>
-            }
-          </CardMinion>
-        ))}
+        <CardsList>
 
-      </CardsList>
+          {productsData.map(product => (
+            <CardMinion key={product.productId}>
+              <p> {product.title} </p>
+              <img src={`https://shopminions-upload.s3-sa-east-1.amazonaws.com/${product.image}`} alt="product" />
+              <span> R$ {product.price} </span>
+              {product.reservedBy ? <p className="reserved-span"> reservado </p> :
+                <p className="btn-shop"> <CgShoppingCart /> <button onClick={() => handleOpen(product)}>RESERVAR</button></p>
+              }
+            </CardMinion>
+          ))}
+
+        </CardsList>
+      }
 
     </Container>
   )

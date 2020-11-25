@@ -16,7 +16,6 @@ export const Container = styled.div`
     color: gray;
     padding: 10px;
   }
-
 `;
 
 const rotate = keyframes`
@@ -77,7 +76,7 @@ export const Modal = styled.div`
     border: 1px solid #d3d4d5;
     margin: 5px 0;
     padding: 10px;
-    border-radius: 2px;
+    border-radius: 3px;
     font-style: italic;
     :focus {
       border: 1px solid #595c5f ;
@@ -88,9 +87,8 @@ export const Modal = styled.div`
     font-weight: bold;
     border: none;
     padding: 10px;
-    border-radius: 2px;
-    border-radius: 20px;
-    ${props => props.loading && css`
+    border-radius: 3px;
+    ${props => props.load && css`
         svg {
             animation: ${rotate} 2s linear infinite;
         }
@@ -99,12 +97,17 @@ export const Modal = styled.div`
   .send {
     background: #024a58; 
     color: #fff;
-    
+    :hover {
+      background: #035f71;
+    }
   }
   .cancel {
     background: #fff;
     color: #024a58;
     border: 1px solid #024a58;
+    :hover {
+      background: #f0f1f1;
+    }
   }
 `;
 

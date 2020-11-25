@@ -33,7 +33,6 @@ function Form(props) {
       const response = await API.put('products', `/reserved/${props.id}`);
 
       if (response.success) {
-        console.log(props.user.email);
         toast.success('Produto reservado com sucesso!');
         sendEmail(props.user.email, props.title);
         setLoading(false);
@@ -42,6 +41,7 @@ function Form(props) {
     }
     catch (e) {
       console.log(e);
+      toast.error(e);
       setLoading(false);
     }
   }
@@ -58,14 +58,13 @@ function Form(props) {
 
         if (response.success) {
           toast.success('Produto reservado com sucesso!');
-          console.log(email);
           sendEmail(email, props.title);
           setLoading(false);
           props.onClose();
         }
       }
       catch (e) {
-        console.log(e);
+        toast.error(e);
         setLoading(false);
       }
     }
@@ -73,8 +72,7 @@ function Form(props) {
   }
 
   async function handleLogout() {
-    const response = await Auth.signOut();
-    console.log(response);
+    await Auth.signOut();
     props.logout();
     history.push('/login');
   }
@@ -82,7 +80,8 @@ function Form(props) {
   const { email, password } = values;
   return (
     <Container >
-      <Modal loading={loading}>
+      <Modal load={loading}>
+
         <h4> RESERVAR PRODUTO </h4>
         <Description>
           <h5 className="title-description"> DESCRIÇÃO DA RESERVA </h5>
@@ -100,7 +99,7 @@ function Form(props) {
               <p className="title-login"> FAÇA LOGIN PARA PROSSEGUIR COM A RESERVA  </p>
               <input onChange={handleChange('email')} placeholder="email" type="text" />
               <input onChange={handleChange('password')} placeholder="senha" type="password" />
-              <span> cadastrar conta  </span>
+              <span onClick={() => history.push('/register')}> cadastrar conta  </span>
             </>
         }
         <div >
@@ -109,6 +108,7 @@ function Form(props) {
             {loading ? <CgSpinner /> : <p> CONFIRMAR </p>}
           </button>
         </div>
+
       </Modal>
     </Container>
 

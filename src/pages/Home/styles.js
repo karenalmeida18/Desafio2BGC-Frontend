@@ -1,4 +1,13 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from "styled-components";
+
+const rotate = keyframes`
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+`;
 
 export const Container = styled.div`
    width: 100%;
@@ -6,6 +15,19 @@ export const Container = styled.div`
    min-height: 100vh;
    padding: 10px;
    background: #024a58;   
+
+   .load {
+     margin: auto;
+     text-align: center;
+     font-size: 30pt;
+     width: 100%;
+     color: #fff;
+   }
+   ${props => props.load && css`
+        .load {
+            animation: ${rotate} 2s linear infinite;
+        }
+    `}
 `
 
 export const CardsList = styled.div`

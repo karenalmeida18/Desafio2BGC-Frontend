@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { Container, Content } from '../../pages/Login/styles';
 
 import Header from '../../components/Header';
-
+import { CgSpinner } from "react-icons/cg";
 
 export default function Register() {
   const history = useHistory();
@@ -18,6 +18,7 @@ export default function Register() {
     code: '',
   })
   const [confirmCode, setConfirmCode] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -28,12 +29,14 @@ export default function Register() {
 
     if (!email || !password) toast.error('Por favor, preencha todos os campos!');
     else {
+      setLoading(true);
       try {
         await Auth.signUp(email, password);
         setConfirmCode(true);
+        setLoading(false);
       }
       catch (e) {
-        console.log(e);
+        setLoading(false);
         toast.error(e.message);
       }
     }
@@ -44,14 +47,16 @@ export default function Register() {
 
     if (!code) toast.error('Por favor, insera o código de confirmação!');
     else {
+      setLoading(true);
       try {
         await Auth.confirmSignUp(email, code);
         await Auth.signIn(email, password);
+        setLoading(false);
         history.push('/history');
       }
       catch (e) {
-        console.log(e);
         toast.error(e.message);
+        setLoading(false);
       }
     }
   }
@@ -65,17 +70,21 @@ export default function Register() {
           <h2> CONFIRMAR CÓDIGO </h2>
 
           <label> Digite o código que recebeu em seu email : </label>
-          <input name="code" onChange={handleChange('code')} placeholder="código" type="text" />
-          <button className="login" type="submit"> CONFIRMAR </button>
-      
+          <input value={code} name="code" onChange={handleChange('code')} placeholder="código" type="text" />
+          <button className="login" type="submit">
+            {loading ? <CgSpinner /> : <span>CONFIRMAR</span>}
+          </button>
+
         </Content>
         :
-        <Content onSubmit={handleSubmit}>
+        <Content load={loading} onSubmit={handleSubmit}>
           <h2> REGISTRO </h2>
 
           <input onChange={handleChange('email')} placeholder="email" type="text" />
           <input onChange={handleChange('password')} placeholder="senha" type="password" />
-          <button className="login" type="submit"> CADASTRAR</button>
+          <button className="login" type="submit">
+            {loading ? <CgSpinner /> : <span>CADASTRAR</span>}
+          </button>
 
         </Content>
 

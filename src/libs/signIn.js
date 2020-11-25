@@ -11,7 +11,6 @@ export async function signIn(email, password) {
       return response;
     }
     catch (e) {
-      console.log(e);
       toast.error(e.message);
       return null;
     }

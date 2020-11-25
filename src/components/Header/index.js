@@ -1,12 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import { Container, Cart } from './styles';
 
-import { CgProfile, CgShoppingCart } from "react-icons/cg";
+import { CgProfile } from "react-icons/cg";
 
-function Header({ user }) {
+export default function Header() {
   const history = useHistory();
   return (
     <Container>
@@ -14,15 +13,9 @@ function Header({ user }) {
 
       <Cart>
         <CgProfile onClick={() => history.push('/login')} />
-        <CgShoppingCart />
+        {/*<CgShoppingCart />*/}
       </Cart>
 
     </Container>
   )
 }
-
-const mapStateToProps = state => ({
-  user: state.user,
-});
-
-export default connect(mapStateToProps)(Header);

@@ -19,7 +19,6 @@ const saveState = state => {
     const serializedState = JSON.stringify(state);
     localStorage.setItem("userShop", serializedState);
   } catch (e) {
-    // Ignore write errors;
   }
 };
 

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from "styled-components";
 
 export const Container = styled.div`
    width: 100%;
@@ -15,6 +15,16 @@ export const Container = styled.div`
    }
 
 `
+
+const rotate = keyframes`
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+`;
+
 
 export const Content = styled.form `
    margin: 10px 0;
@@ -50,6 +60,11 @@ export const Content = styled.form `
       padding: 15px;
       margin-top : 15px;
       transition: .2s background;
+      ${props => props.load && css`
+        svg {
+            animation: ${rotate} 2s linear infinite;
+        }
+    `}
    }
 
    p{

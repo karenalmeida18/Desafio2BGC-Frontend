@@ -12,6 +12,7 @@ import { Auth } from 'aws-amplify';
 import { Container, Content } from './styles';
 
 import Header from '../../components/Header';
+import { CgSpinner } from "react-icons/cg";
 
 import { isAuthenticated } from '../../services/auth';
 
@@ -21,6 +22,7 @@ function Login({ setLogin }) {
     email: '',
     password: '',
   })
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -30,15 +32,17 @@ function Login({ setLogin }) {
     event.preventDefault();
     if (!email || !password) toast.error('Por favor, preencha todos os campos!');
     else {
+      setLoading(true);
       try {
         const response = await Auth.signIn(email, password);
         setLogin(response.attributes);
         toast.success("Login feito com sucesso");
         history.push('/history');
+        setLoading(false);
       }
       catch (e) {
-        console.log(e);
         toast.error(e.message);
+        setLoading(false);
       }
     }
   }
@@ -50,13 +54,15 @@ function Login({ setLogin }) {
     {isAuthenticated() ? <Redirect to="/history" /> : null}
     <Container>
       <Header />
-      <Content onSubmit={handleSubmit}>
+      <Content load={loading} onSubmit={handleSubmit}>
         <h2> LOGIN </h2>
 
         <input onChange={handleChange('email')} placeholder="email" type="text" />
         <input onChange={handleChange('password')} placeholder="senha" type="password" />
 
-        <button className="login" type="submit">ENTRAR</button>
+        <button className="login" type="submit">
+          {loading ? <CgSpinner /> : <span>ENTRAR</span>}
+        </button>
         <p> ou </p>
         <button onClick={() => history.push('/register')} className="register" type="submit"> CADASTRAR</button>
       </Content>
