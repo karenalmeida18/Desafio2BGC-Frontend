@@ -99,6 +99,10 @@ export const CardMinion = styled.div`
      color: #fff;
      padding: 8px;
      background: #012e41;
+     :hover {
+        transform: scale(1.09);
+     }
+     
    }
    .btn-shop{
      width: 100%;
@@ -111,6 +115,11 @@ export const CardMinion = styled.div`
        background: #fff;
        height: 100%;
        border: 1px solid #012e41;
+       :hover {
+        transform: scale(1.09);
+        background: #10D2A9;
+        border: none;
+       }
      }
    }
 
