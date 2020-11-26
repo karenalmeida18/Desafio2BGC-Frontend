@@ -113,7 +113,7 @@ export const Modal = styled.div`
 
 export const Description = styled.div`
   width: 100%;
-  height: 250px;
+  max-height: 250px;
   overflow-y: scroll;
   background:  #f0f1f1 ;
   font-size: 10pt;
