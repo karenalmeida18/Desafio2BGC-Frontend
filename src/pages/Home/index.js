@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as CartActions from '../../store/actions/cart'
 
+import { toast } from 'react-toastify';
+
 import { API } from "aws-amplify";
 
 import { Container, CardsList, CardMinion } from './styles';
@@ -39,6 +41,10 @@ function Home({ addItem }) {
     setProduct([product]);
   }
 
+  function addToCart(product) {
+    addItem(product);
+    toast.info('Produto no carrinho');
+  }
   return (
     <Container load={loading}>
 
@@ -58,7 +64,7 @@ function Home({ addItem }) {
               <img src={`https://shopminions-upload.s3-sa-east-1.amazonaws.com/${product.image}`} alt="product" />
               <span> R$ {product.price} </span>
               {product.reservedBy ? <p className="reserved-span"> reservado </p> :
-                <p className="btn-shop"> <CgShoppingCart onClick={() => addItem(product)} />
+                <p className="btn-shop"> <CgShoppingCart onClick={() => addToCart(product)} />
                   <button onClick={() => handleOpen(product)}>RESERVAR</button></p>
               }
             </CardMinion>
